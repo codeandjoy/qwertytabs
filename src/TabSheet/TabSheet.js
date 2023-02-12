@@ -27,7 +27,7 @@ const TabSheet = () => {
 
     return (
         <div id="TabSheet">
-            <h1 className="tab-name">{tabContent.name}</h1>
+            <h1 className="tab-name">{ tabContent.name }</h1>
             <TabContent content={ tabContent }/>
         </div>
     );

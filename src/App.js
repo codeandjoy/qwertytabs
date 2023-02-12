@@ -1,9 +1,9 @@
 import Nav from "./Nav/Nav";
 import TabSheet from "./TabSheet/TabSheet";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
+    <div>
       <Nav/>
       <TabSheet/>
     </div>
