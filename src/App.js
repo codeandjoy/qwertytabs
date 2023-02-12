@@ -1,9 +1,11 @@
 import Nav from "./Nav/Nav";
+import TabSheet from "./TabSheet/TabSheet";
 
 function App() {
   return (
     <div className="App">
-      <Nav/>      
+      <Nav/>
+      <TabSheet/>
     </div>
   );
 }
