@@ -1,0 +1,28 @@
+.tab-line {
+  position: relative;
+  height: 100px;
+}
+.tab-line .string-lines {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.tab-line .string-lines .string-line {
+  width: 100%;
+  height: 4px;
+  background-color: #c4c4c4;
+}
+.tab-line .string-lines .string-line:not(:last-child) {
+  margin-bottom: 20px;
+}
+.tab-line .note-sets {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  padding: 0 20px;
+}
+.tab-line .note-sets > *:not(:last-child) {
+  margin-right: 10px;
+}/*# sourceMappingURL=TabLine.css.map */

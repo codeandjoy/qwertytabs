@@ -1,0 +1,10 @@
+.note-set {
+  display: flex;
+  flex-direction: column;
+}
+.note-set .note {
+  white-space: pre;
+  font-size: 16pt;
+  font-weight: bold;
+  margin-bottom: -3px;
+}/*# sourceMappingURL=NoteSet.css.map */

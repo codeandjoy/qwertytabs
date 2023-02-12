@@ -1,0 +1,7 @@
+.tab-content {
+  display: flex;
+  flex-direction: column;
+}
+.tab-content > *:not(:last-child) {
+  margin-bottom: 80px;
+}/*# sourceMappingURL=TabContent.css.map */
