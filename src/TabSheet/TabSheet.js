@@ -1,33 +1,10 @@
 import TabContent from "./TabContent";
 import "./css/TabSheet.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect } from "react";
+import { TabSheetContext } from "../TabSheetContext/TabSheetContext";
 
 const TabSheet = () => {
-    const [tabState, setTabState] = useState({
-            focusedLine: 1,
-            focusedNoteSet: 4,
-            focusedStrings: [],
-            tabContent: {
-                name: "Tab",
-                notes: [
-                    [
-                        ["0", "n", "n", "n", "n", "0"],
-                        ["n", "n", "0", "n", "n", "n"],
-                        ["n", "3", "n", "n", "n", "n"],
-                        ["0", "n", "n", "n", "n", "n"],
-                        ["0", "n", "n", "n", "n", "0"]
-                    ],
-                    [
-                        ["0", "n", "n", "n", "n", "0"],
-                        ["n", "n", "0", "n", "n", "n"],
-                        ["n", "3", "n", "n", "n", "n"],
-                        ["0", "n", "n", "n", "n", "n"],
-                        ["0", "n", "n", "n", "n", "n"]
-                    ],
-                ]
-            }
-        }
-    );
+    const [tabState, setTabState] = useContext(TabSheetContext);
 
     console.log(tabState.focusedStrings);
 
@@ -41,7 +18,7 @@ const TabSheet = () => {
                 return { ...oldState, focusedStrings: [ ...oldState.focusedStrings, 0 ] }
             });
         }
-    }, []);
+    }, [setTabState]);
 
     const handleKeyup = useCallback((event) => {
         if(event.repeat) return;
@@ -52,7 +29,7 @@ const TabSheet = () => {
                 return { ...oldState, focusedStrings: [ ...oldState.focusedStrings.filter(string => string !== 0) ] }
             });
         }
-    }, []);
+    }, [setTabState]);
     
     useEffect(() => {
         document.addEventListener('keypress', handleKeydown);
@@ -67,7 +44,7 @@ const TabSheet = () => {
     return (
         <div id="TabSheet">
             <h1 className="tab-name">{ tabState.tabContent.name }</h1>
-            <TabContent content={ tabState.tabContent }/>
+            <TabContent/>
         </div>
     );
 }

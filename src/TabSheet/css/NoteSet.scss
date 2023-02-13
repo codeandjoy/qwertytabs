@@ -1,4 +1,5 @@
-.note-set{
+.note-set,
+.note-set-focused{
     display: flex;
     flex-direction: column;
 
@@ -10,4 +11,8 @@
         
         margin-bottom: -3px;
     }
+}
+
+.note-set-focused{
+    background-color: #00000027;
 }

@@ -18,8 +18,8 @@ const TabLine = ({ line }) => {
 
             <div className="note-sets">
                 {
-                    line.map(set => 
-                        <NoteSet set={ set }/>
+                    line.lineData.map(set => 
+                        <NoteSet key={ set.ID } set={ set }/>
                     )
                 }
             </div>
@@ -29,7 +29,7 @@ const TabLine = ({ line }) => {
 
 
 TabLine.propTypes = {
-    line: PropTypes.array.isRequired
+    line: PropTypes.object.isRequired
 }
 
 export default TabLine;

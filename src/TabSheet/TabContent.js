@@ -1,23 +1,22 @@
-import PropTypes from 'prop-types';
-import "./css/TabContent.css";
+import { useContext } from 'react';
+import { TabSheetContext } from '../TabSheetContext/TabSheetContext';
 import TabLine from './TabLine';
+import "./css/TabContent.css";
 
 
-const TabContent = ({ content }) => {
+const TabContent = () => {
+    const [tabState] = useContext(TabSheetContext);
+
     return (
         <div className="tab-content">
             {
-                content.notes.map(line => 
-                    <TabLine line={ line }/>
+                tabState.tabContent.notes.map(line => 
+                    <TabLine key={ line.ID } line={ line }/>
                 )
             }
         </div>
     );
 }
 
-
-TabContent.propTypes = {
-    content: PropTypes.array.isRequired
-}
 
 export default TabContent;

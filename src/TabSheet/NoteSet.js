@@ -4,21 +4,23 @@ import "./css/NoteSet.css";
 
 
 const NoteSet = ({ set }) => {
+    const noteSetClassName =  set.isNoteSetFocused ? 'note-set-focused ' : 'note-set';
+
     return (
-        <div className='note-set'>
-            <span className='note'>{ renderNote(set[0]) }</span>
-            <span className='note'>{ renderNote(set[1]) }</span>
-            <span className='note'>{ renderNote(set[2]) }</span>
-            <span className='note'>{ renderNote(set[3]) }</span>
-            <span className='note'>{ renderNote(set[4]) }</span>
-            <span className='note'>{ renderNote(set[5]) }</span>
+        <div className={ noteSetClassName }>
+            <span className='note'>{ renderNote(set.noteSetData[0]) }</span>
+            <span className='note'>{ renderNote(set.noteSetData[1]) }</span>
+            <span className='note'>{ renderNote(set.noteSetData[2]) }</span>
+            <span className='note'>{ renderNote(set.noteSetData[3]) }</span>
+            <span className='note'>{ renderNote(set.noteSetData[4]) }</span>
+            <span className='note'>{ renderNote(set.noteSetData[5]) }</span>
         </div>    
     );
 }
 
 
 NoteSet.propTypes = {
-    set: PropTypes.array.isRequired
+    set: PropTypes.object.isRequired
 }
 
 export default NoteSet;
