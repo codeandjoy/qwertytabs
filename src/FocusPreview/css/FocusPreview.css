@@ -1,0 +1,7 @@
+.FocusPreview {
+  display: flex;
+  margin-bottom: 30px;
+}
+.FocusPreview > *:not(:last-child) {
+  margin-right: 5px;
+}/*# sourceMappingURL=FocusPreview.css.map */
