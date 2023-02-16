@@ -9,10 +9,7 @@ const TabSheet = () => {
     console.log(tabState);
 
     const changeFocus = useCallback((newFocusLine, newFocuseNoteSet) => {
-        // Reality checks
-        if(newFocusLine < 0 || newFocusLine > tabState.tabContent.notes.length-1) return;
-        if(newFocuseNoteSet < 0 || newFocuseNoteSet > tabState.tabContent.notes[newFocusLine].lineData.length-1) return;
-
+        console.log("Change focus");
         setTabState((oldState) => {
             const newTabState = { ...oldState }
 
@@ -25,15 +22,56 @@ const TabSheet = () => {
 
             // Set new focus
             newTabState.tabContent.notes[newFocusLine].isLineFocused = true;
-            newTabState.tabContent.notes[newFocusLine].lineData[newFocuseNoteSet].isNoteSetFocused = true;
-            
-            // Update guides
             newTabState.focusedLine = newFocusLine;
-            newTabState.focusedNoteSet = newFocuseNoteSet;
 
+            newTabState.tabContent.notes[newFocusLine].lineData[newFocuseNoteSet].isNoteSetFocused = true;
+            newTabState.focusedNoteSet = newFocuseNoteSet;
+            
             return newTabState;
         })
-    }, [setTabState, tabState]);
+    }, [setTabState]);
+
+    const moveLineUp = useCallback(() => {
+        const currentFocusLine = tabState.focusedLine;
+        const currentFocusNoteSet = tabState.focusedNoteSet;
+        
+        if(currentFocusLine === 0) return;
+
+        if(currentFocusNoteSet > tabState.tabContent.notes[currentFocusLine-1].lineData.length-1){
+            changeFocus(currentFocusLine-1, tabState.tabContent.notes[currentFocusLine-1].lineData.length-1);
+        }
+        else{
+            changeFocus(currentFocusLine-1, currentFocusNoteSet);
+        }
+    }, [tabState, changeFocus]);
+
+    const moveLineDown = useCallback(() => {
+        const currentFocusLine = tabState.focusedLine;
+        const currentFocusNoteSet = tabState.focusedNoteSet;
+
+        if(currentFocusLine+1 > tabState.tabContent.notes.length-1) return;
+
+        changeFocus(currentFocusLine+1, currentFocusNoteSet);
+    }, [tabState, changeFocus]);
+
+    const moveSetLeft = useCallback(() => {
+        const currentFocusLine = tabState.focusedLine;
+        const currentFocusNoteSet = tabState.focusedNoteSet;
+
+        if(currentFocusNoteSet === 0) return;
+
+        changeFocus(currentFocusLine, currentFocusNoteSet-1);
+    }, [tabState, changeFocus]);
+
+    const moveSetRight = useCallback(() => {
+        const currentFocusLine = tabState.focusedLine;
+        const currentFocusNoteSet = tabState.focusedNoteSet;
+
+        if(currentFocusNoteSet+1 > tabState.tabContent.notes[currentFocusLine].lineData.length-1) return;
+
+        changeFocus(currentFocusLine, currentFocusNoteSet+1);
+    }, [tabState, changeFocus])
+
 
     // Keyboard shortcuts
     const handleKeydown = useCallback((event) => {
@@ -41,11 +79,17 @@ const TabSheet = () => {
 
         // up down - change line
         // left right - change note set
+        if(event.key === 'ArrowUp'){
+            moveLineUp();
+        }
+        else if(event.key === 'ArrowDown'){
+            moveLineDown();
+        }
         if(event.key === 'ArrowLeft'){
-            changeFocus(tabState.focusedLine, tabState.focusedNoteSet-1);
+            moveSetLeft();
         }
         else if(event.key === 'ArrowRight'){
-            changeFocus(tabState.focusedLine, tabState.focusedNoteSet+1);
+            moveSetRight();
         }
 
         if(event.key === 'q'){
@@ -54,7 +98,7 @@ const TabSheet = () => {
                 return { ...oldState, focusedStrings: [ ...oldState.focusedStrings, 0 ] }
             });
         }
-    }, [setTabState, changeFocus, tabState]);
+    }, [setTabState, moveLineUp, moveLineDown, moveSetLeft, moveSetRight]);
 
     const handleKeyup = useCallback((event) => {
         if(event.repeat) return;
