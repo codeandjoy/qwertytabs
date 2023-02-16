@@ -1,9 +1,12 @@
 #TabSheet {
   width: 700px;
-  padding: 50px 100px 140px 100px;
+  padding: 50px 80px 126px 80px;
   background-color: #fff;
   border-radius: 5px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
 }
 #TabSheet .tab-name {
+  margin: 0;
+  margin-bottom: 30px;
   text-align: center;
 }/*# sourceMappingURL=TabSheet.css.map */
