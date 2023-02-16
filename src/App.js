@@ -1,15 +1,19 @@
 import Nav from "./Nav/Nav";
+import CenteredContent from "./CenteredContent/CenteredContent";
 import TabSheet from "./TabSheet/TabSheet";
 import { TabSheetContextProvider } from "./TabSheetContext/TabSheetContext";
+import FullScreenContent from "./FullScreenContent/FullScreenContent";
 
 const App = () => {
   return (
-    <div>
+    <FullScreenContent>
       <TabSheetContextProvider>
         <Nav/>
-        <TabSheet/>
+        <CenteredContent>
+          <TabSheet/>
+        </CenteredContent>
       </TabSheetContextProvider>
-    </div>
+    </FullScreenContent>
   );
 }
 
