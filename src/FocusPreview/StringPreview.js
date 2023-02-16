@@ -4,7 +4,7 @@ import './css/StringPreview.css';
 
 const StringPreview = ({ string, isFocused }) => {
     const className = isFocused ? 'string-preview-focused' : 'string-preview';
-    
+
     return (
         <div className={ className }>
             <span>{ string }</span>

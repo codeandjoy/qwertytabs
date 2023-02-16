@@ -11,4 +11,8 @@
 .string-preview-focused span {
   font-weight: bold;
   font-size: 24px;
+}
+
+.string-preview-focused {
+  background-color: #1DFF1D;
 }/*# sourceMappingURL=StringPreview.css.map */
