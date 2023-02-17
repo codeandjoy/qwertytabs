@@ -11,6 +11,8 @@ const App = () => {
   const [tabState, setTabState] = useContext(TabSheetContext);
   useKeyboardShortcuts(tabState, setTabState);
 
+  console.log(tabState.focusedStrings);
+
   return (
     <FullScreenContent>
         <Nav/>

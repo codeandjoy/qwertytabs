@@ -4,6 +4,15 @@ import useTabSheetNavigation from "./useTabSheetNavigation";
 const useKeyboardShortcuts = (tabState, setTabState) => {
     const [moveLineUp, moveLineDown, moveSetLeft, moveSetRight] = useTabSheetNavigation(tabState, setTabState);
 
+    const toggleStringFocus = useCallback((string) => {
+        setTabState((oldState) => { 
+            if(oldState.focusedStrings.includes(string)){
+                return { ...oldState, focusedStrings: [ ...oldState.focusedStrings.filter(s => s !== string) ] }
+            }
+            return { ...oldState, focusedStrings: [ ...oldState.focusedStrings, string ] }
+        });
+    }, [setTabState]);
+
     const handleKeydown = useCallback((event) => {
         if(event.repeat) return;
 
@@ -22,26 +31,26 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
             moveSetRight();
         }
 
-        if(event.key === 'q'){
-            console.log("Q down");
-            // ! refactor
-            setTabState((oldState) => { 
-                return { ...oldState, focusedStrings: [ ...oldState.focusedStrings, 0 ] }
-            });
-        }
-    }, [setTabState, moveLineUp, moveLineDown, moveSetLeft, moveSetRight]);
+        if(event.key === 'q') toggleStringFocus(0);
+        if(event.key === 'w') toggleStringFocus(1);
+        if(event.key === 'e') toggleStringFocus(2);
+        if(event.key === 'r') toggleStringFocus(3);
+        if(event.key === 't') toggleStringFocus(4);
+        if(event.key === 'y') toggleStringFocus(5);
+
+    }, [toggleStringFocus, moveLineUp, moveLineDown, moveSetLeft, moveSetRight]);
 
     const handleKeyup = useCallback((event) => {
         if(event.repeat) return;
         
-        if(event.key === 'q'){
-            console.log("Q up");
-            // ! refactor
-            setTabState((oldState) => {
-                return { ...oldState, focusedStrings: [ ...oldState.focusedStrings.filter(string => string !== 0) ] }
-            });
-        }
-    }, [setTabState]);
+        if(event.key === 'q') toggleStringFocus(0);
+        if(event.key === 'w') toggleStringFocus(1);
+        if(event.key === 'e') toggleStringFocus(2);
+        if(event.key === 'r') toggleStringFocus(3);
+        if(event.key === 't') toggleStringFocus(4);
+        if(event.key === 'y') toggleStringFocus(5);
+
+    }, [toggleStringFocus]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeydown);
