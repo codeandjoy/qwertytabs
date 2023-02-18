@@ -1,9 +1,11 @@
 import { useCallback, useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid';
 import useTabSheetNavigation from "./useTabSheetNavigation";
 import useArrows from "./useArrows";
 import useFrets from "./useFrets";
 import useQWERTY from "./useQWERTY";
+import addNoteSet from "./utils/addNoteSet";
+import addLine from "./utils/addLine";
+import changeFocus from "./utils/changeFocus";
 
 const useKeyboardShortcuts = (tabState, setTabState) => {
     const checkArrows = useArrows(tabState, setTabState);
@@ -21,31 +23,10 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
         checkQWERTY(event.key);
         checkFretKeys(event.key);
 
-        // ! slow
         if(event.shiftKey && event.key === 'Enter'){
             setTabState(oldTabState => {
-                const newTabState = { ...oldTabState };
-
-                // Remove previous focus
-                newTabState.tabContent.notes[oldTabState.focusedLine].isLineFocused = false;
-                newTabState.tabContent.notes[oldTabState.focusedLine].lineData[oldTabState.focusedNoteSet].isNoteSetFocused = false;
-
-                newTabState.tabContent.notes.splice(oldTabState.focusedLine+1, 0,
-                    {
-                        ID: uuidv4(),
-                        isLineFocused: true,
-                        lineData:[
-                            {
-                                ID: uuidv4(),
-                                isNoteSetFocused: true,
-                                noteSetData: Array(6).fill("n")
-                            }
-                        ]
-                    }
-                )
-
-                newTabState.focusedLine += 1;
-                newTabState.focusedNoteSet = 0;
+                let newTabState = addLine(oldTabState);
+                newTabState = changeFocus(newTabState, newTabState.focusedLine+1, 0);
 
                 return newTabState;
             });
@@ -55,17 +36,7 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
 
             if(tabState.focusedNoteSet === tabState.tabContent.notes[tabState.focusedLine].lineData.length-1){
                 setTabState(oldTabState => {
-                    const newTabState = { ...oldTabState };
-
-                    newTabState.tabContent.notes[tabState.focusedLine].lineData.push(
-                        {
-                            ID: uuidv4(),
-                            isNoteSetFocused: false,
-                            noteSetData: Array(6).fill("n")
-                        }
-                    )
-
-                    return newTabState;
+                    return addNoteSet(oldTabState, Array(6).fill("n"));
                 });
             }
             moveSetRight();
