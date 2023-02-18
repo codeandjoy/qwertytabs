@@ -5,7 +5,7 @@ export const TabSheetContext = createContext();
 export const TabSheetContextProvider = ({ children }) => {
     const [tabState, setTabState] = useState({
         focusedLine: 1,
-        focusedNoteSet: 5,
+        focusedNoteSet: 6,
         focusedStrings: [],
         tabContent: {
             name: "Tab",
@@ -72,8 +72,13 @@ export const TabSheetContextProvider = ({ children }) => {
                         },
                         {
                             ID: "15",
-                            isNoteSetFocused: true,
+                            isNoteSetFocused: false,
                             noteSetData: ["0", "n", "n", "n", "n", "0"]
+                        },
+                        {
+                            ID: "16",
+                            isNoteSetFocused: true,
+                            noteSetData: ["l", "l", "l", "l", "l", "l"]
                         },
                     ]
                 },

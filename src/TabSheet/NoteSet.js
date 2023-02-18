@@ -10,6 +10,17 @@ const NoteSet = ({ set }) => {
     
     const noteSetClassName =  set.isNoteSetFocused ? 'note-set-focused ' : 'note-set';
 
+    if(set.noteSetData.some(n => n === 'l')){
+        return (
+            <div className={ noteSetClassName }>
+                <span className='note'> </span>
+                <div className='vertical-divider-container'>
+                    <div className='vertical-divider'></div>
+                </div>
+            </div>
+        );
+    }
+
     let noteClassNames = Array(6).fill('note')
     if(set.isNoteSetFocused){
         noteClassNames = noteClassNames.map((note, idx) => {
