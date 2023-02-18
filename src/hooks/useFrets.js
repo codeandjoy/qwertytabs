@@ -14,9 +14,11 @@ const useFrets = (tabState, setTabState) => {
     }, [setTabState]);
 
     const fretBuffer = useMemo(() => [], []);
+    const cleanFretBuffer = () => fretBuffer.length = 0;
+
     useEffect(() => {
         if(!tabState.focusedStrings.length){
-            fretBuffer.length = 0;
+            cleanFretBuffer();
         } 
     }, [fretBuffer, tabState.focusedStrings]);
 
@@ -27,7 +29,7 @@ const useFrets = (tabState, setTabState) => {
         }
     }
 
-    return checkFretKeys;
+    return [checkFretKeys, cleanFretBuffer];
 }
 
 export default useFrets;

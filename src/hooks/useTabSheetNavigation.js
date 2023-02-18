@@ -43,7 +43,13 @@ const useTabSheetNavigation = (tabState, setTabState) => {
 
         if(currentFocusLine+1 > tabState.tabContent.notes.length-1) return;
 
-        changeFocus(currentFocusLine+1, currentFocusNoteSet);
+        if(currentFocusNoteSet > tabState.tabContent.notes[currentFocusLine+1].lineData.length-1){
+            changeFocus(currentFocusLine+1, tabState.tabContent.notes[currentFocusLine+1].lineData.length-1);
+        }
+        else{
+            changeFocus(currentFocusLine+1, currentFocusNoteSet);
+        }
+        // changeFocus(currentFocusLine+1, currentFocusNoteSet);
     }, [tabState, changeFocus]);
 
     const moveSetLeft = useCallback(() => {
