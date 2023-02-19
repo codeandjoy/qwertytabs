@@ -1,8 +1,8 @@
 const changeFocus = (tabState, newFocusLine, newFocuseNoteSet) => {
     const newTabState = { ...tabState };
 
-    const focusedLine = newTabState.focusedLine;
-    const focusedNoteSet = newTabState.focusedNoteSet;
+    const focusedLine = tabState.focusedLine;
+    const focusedNoteSet = tabState.focusedNoteSet;
 
     // Remove old focus
     newTabState.tabContent.notes[focusedLine].isLineFocused = false;

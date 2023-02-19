@@ -1,26 +1,24 @@
 import { useCallback, useEffect, useMemo } from "react";
 
 const useFrets = (tabState, setTabState) => {
-    const setFret = useCallback((fret) => {
-        setTabState((oldState) => {
-            const newState = { ...oldState };
-            
-            oldState.focusedStrings.forEach(focusedString => {
-                newState.tabContent.notes[oldState.focusedLine].lineData[oldState.focusedNoteSet].noteSetData[focusedString] = fret;
-            });
-
-            return newState;
-        });
-    }, [setTabState]);
-
     const fretBuffer = useMemo(() => [], []);
-    const cleanFretBuffer = () => fretBuffer.length = 0;
+    const cleanFretBuffer = useCallback(() => fretBuffer.length = 0, [fretBuffer]);
+
+    const setFret = useCallback((fret) => {
+        const newTabState = {}; 
+        
+        tabState.focusedStrings.forEach(focusedString => {
+            newTabState.tabContent.notes[tabState.focusedLine].lineData[tabState.focusedNoteSet].noteSetData[focusedString] = fret;
+        });
+
+        setTabState(newTabState);
+    }, [tabState, setTabState]);
 
     useEffect(() => {
         if(!tabState.focusedStrings.length){
             cleanFretBuffer();
         } 
-    }, [fretBuffer, tabState.focusedStrings]);
+    }, [fretBuffer, cleanFretBuffer, tabState.focusedStrings]);
 
     const checkFretKeys = (key) => {
         if(/^[0-9]$/i.test(key)){

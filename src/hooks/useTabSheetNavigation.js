@@ -3,10 +3,8 @@ import changeFocus from "./utils/changeFocus";
 
 const useTabSheetNavigation = (tabState, setTabState) => {
     const changeTabFocus = useCallback((newFocusLine, newFocuseNoteSet) => {
-        setTabState((oldState) => {
-            return changeFocus({ ...oldState }, newFocusLine, newFocuseNoteSet);
-        })
-    }, [setTabState]);
+        setTabState(changeFocus(tabState, newFocusLine, newFocuseNoteSet));
+    }, [tabState, setTabState]);
 
     const moveLineUp = useCallback(() => {
         const currentFocusLine = tabState.focusedLine;

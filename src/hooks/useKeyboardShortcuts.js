@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from "react";
-import useTabSheetNavigation from "./useTabSheetNavigation";
 import useArrows from "./useArrows";
 import useFrets from "./useFrets";
 import useQWERTY from "./useQWERTY";
@@ -9,10 +8,8 @@ import changeFocus from "./utils/changeFocus";
 
 const useKeyboardShortcuts = (tabState, setTabState) => {
     const checkArrows = useArrows(tabState, setTabState);
-    const checkQWERTY = useQWERTY(setTabState);
+    const checkQWERTY = useQWERTY(tabState, setTabState);
     const [checkFretKeys, cleanFretBuffer] = useFrets(tabState, setTabState);
-
-    const [moveLineUp, moveLineDown, moveSetLeft, moveSetRight] = useTabSheetNavigation(tabState, setTabState);
 
     console.log(tabState);
 
@@ -23,26 +20,29 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
         checkQWERTY(event.key);
         checkFretKeys(event.key);
 
-        if(event.shiftKey && event.key === 'Enter'){
-            setTabState(oldTabState => {
-                let newTabState = addLine(oldTabState);
-                newTabState = changeFocus(newTabState, newTabState.focusedLine+1, 0);
+        if(event.key === 'l'){
+            let newTabState = addNoteSet(tabState, Array(6).fill("l")); 
+            newTabState = changeFocus(newTabState, newTabState.focusedLine, newTabState.focusedNoteSet+1);
+            
+            setTabState(newTabState);
+        }
 
-                return newTabState;
-            });
+        if(event.shiftKey && event.key === 'Enter'){
+            let newTabState = addLine(tabState);
+            newTabState = changeFocus(newTabState, newTabState.focusedLine+1, 0);
+
+            setTabState(newTabState);
         }
         else if(event.key === 'Enter'){
             cleanFretBuffer();
 
-            if(tabState.focusedNoteSet === tabState.tabContent.notes[tabState.focusedLine].lineData.length-1){
-                setTabState(oldTabState => {
-                    return addNoteSet(oldTabState, Array(6).fill("n"));
-                });
-            }
-            moveSetRight();
+            let newTabState = addNoteSet(tabState, Array(6).fill("n"));
+            newTabState = changeFocus(newTabState, newTabState.focusedLine, newTabState.focusedNoteSet+1);
+            
+            setTabState(newTabState);
         }
 
-    }, [checkArrows, checkQWERTY, checkFretKeys, cleanFretBuffer, moveSetRight, tabState, setTabState]);
+    }, [checkArrows, checkQWERTY, checkFretKeys, cleanFretBuffer, tabState, setTabState]);
 
     const handleKeyup = useCallback((event) => {
         if(event.repeat) return;

@@ -1,14 +1,18 @@
 import { useCallback } from "react";
 
-const useQWERTY = (setTabState) => {
+const useQWERTY = (tabState, setTabState) => {
     const toggleStringFocus = useCallback((string) => {
-        setTabState((oldState) => { 
-            if(oldState.focusedStrings.includes(string)){
-                return { ...oldState, focusedStrings: [ ...oldState.focusedStrings.filter(s => s !== string) ] }
-            }
-            return { ...oldState, focusedStrings: [ ...oldState.focusedStrings, string ] }
-        });
-    }, [setTabState]);
+        let newTabState = {};
+
+        if(tabState.focusedStrings.includes(string)){
+            newTabState = { ...tabState, focusedStrings: [ ...tabState.focusedStrings.filter(s => s !== string) ] }
+        }
+        else {
+            newTabState = { ...tabState, focusedStrings: [ ...tabState.focusedStrings, string ] }
+        }
+
+        setTabState(newTabState);
+    }, [tabState, setTabState]);
 
     const checkQWERTY = (key) =>{
         if(key === 'q') toggleStringFocus(5);
