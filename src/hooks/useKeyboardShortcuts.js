@@ -27,13 +27,13 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
             setTabState(newTabState);
         }
 
-        if(event.shiftKey && event.key === 'Enter'){
+        if(event.key === 'Enter'){
             let newTabState = addLine(tabState);
             newTabState = changeFocus(newTabState, newTabState.focusedLine+1, 0);
 
             setTabState(newTabState);
         }
-        else if(event.key === 'Enter' || event.key === ' '){
+        else if(event.key === ' '){
             cleanFretBuffer();
 
             let newTabState = addNoteSet(tabState, Array(6).fill("n"));
