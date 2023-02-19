@@ -8,12 +8,12 @@ const FocusPreview = () => {
 
     return (
         <div className="FocusPreview">
-            <StringPreview string='Q' isFocused={ tabState.focusedStrings.includes(0) }/>
-            <StringPreview string='W' isFocused={ tabState.focusedStrings.includes(1) }/>
-            <StringPreview string='E' isFocused={ tabState.focusedStrings.includes(2) }/>
-            <StringPreview string='R' isFocused={ tabState.focusedStrings.includes(3) }/>
-            <StringPreview string='T' isFocused={ tabState.focusedStrings.includes(4) }/>
-            <StringPreview string='Y' isFocused={ tabState.focusedStrings.includes(5) }/>
+            <StringPreview string='Q' isFocused={ tabState.focusedStrings.includes(5) }/>
+            <StringPreview string='W' isFocused={ tabState.focusedStrings.includes(4) }/>
+            <StringPreview string='E' isFocused={ tabState.focusedStrings.includes(3) }/>
+            <StringPreview string='R' isFocused={ tabState.focusedStrings.includes(2) }/>
+            <StringPreview string='T' isFocused={ tabState.focusedStrings.includes(1) }/>
+            <StringPreview string='Y' isFocused={ tabState.focusedStrings.includes(0) }/>
         </div>
     );
 }
