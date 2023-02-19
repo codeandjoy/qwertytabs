@@ -5,6 +5,8 @@ import useQWERTY from "./useQWERTY";
 import addNoteSet from "./utils/addNoteSet";
 import addLine from "./utils/addLine";
 import changeFocus from "./utils/changeFocus";
+import removeNoteSet from "./utils/removeNoteSet";
+import removeLine from "./utils/removeLine";
 
 const useKeyboardShortcuts = (tabState, setTabState) => {
     const checkArrows = useArrows(tabState, setTabState);
@@ -33,13 +35,21 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
 
             setTabState(newTabState);
         }
-        else if(event.key === ' '){
+        
+        if(event.key === ' '){
             cleanFretBuffer();
 
             let newTabState = addNoteSet(tabState, Array(6).fill("n"));
             newTabState = changeFocus(newTabState, newTabState.focusedLine, newTabState.focusedNoteSet+1);
             
             setTabState(newTabState);
+        }
+
+        if(event.shiftKey && event.key === 'Backspace'){
+            setTabState(removeLine(tabState));
+        }
+        else if(event.key === 'Backspace'){
+            setTabState(removeNoteSet(tabState));
         }
 
     }, [checkArrows, checkQWERTY, checkFretKeys, cleanFretBuffer, tabState, setTabState]);
