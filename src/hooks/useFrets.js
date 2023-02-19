@@ -5,7 +5,7 @@ const useFrets = (tabState, setTabState) => {
     const cleanFretBuffer = useCallback(() => fretBuffer.length = 0, [fretBuffer]);
 
     const setFret = useCallback((fret) => {
-        const newTabState = {}; 
+        const newTabState = { ...tabState }; 
         
         tabState.focusedStrings.forEach(focusedString => {
             newTabState.tabContent.notes[tabState.focusedLine].lineData[tabState.focusedNoteSet].noteSetData[focusedString] = fret;
