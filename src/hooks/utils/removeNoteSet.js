@@ -4,7 +4,7 @@ import removeLine from "./removeLine";
 const removeNoteSet = (tabState) => {
     let newTabState = { ...tabState };
 
-    // if last note set remove current line and refocus to previous (next?) one
+    // On last note set remove line
     if(tabState.tabContent.notes[tabState.focusedLine].lineData.length === 1){
         return removeLine(newTabState);
     }

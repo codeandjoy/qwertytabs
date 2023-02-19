@@ -4,7 +4,6 @@ import useFrets from "./useFrets";
 import useQWERTY from "./useQWERTY";
 import addNoteSet from "./utils/addNoteSet";
 import addLine from "./utils/addLine";
-import changeFocus from "./utils/changeFocus";
 import removeNoteSet from "./utils/removeNoteSet";
 import removeLine from "./utils/removeLine";
 
@@ -32,7 +31,6 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
         
         if(event.key === ' '){
             cleanFretBuffer();
-
             setTabState(addNoteSet(tabState, Array(6).fill("n")));
         }
 
