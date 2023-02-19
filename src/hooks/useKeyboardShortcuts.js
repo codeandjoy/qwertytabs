@@ -33,7 +33,7 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
 
             setTabState(newTabState);
         }
-        else if(event.key === 'Enter'){
+        else if(event.key === 'Enter' || event.key === ' '){
             cleanFretBuffer();
 
             let newTabState = addNoteSet(tabState, Array(6).fill("n"));
