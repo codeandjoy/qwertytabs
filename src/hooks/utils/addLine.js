@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
+import changeFocus from './changeFocus';
 
 const addLine = (tabState) => {
-    const newTabState = { ...tabState };
+    let newTabState = { ...tabState };
 
     newTabState.tabContent.notes.splice(tabState.focusedLine+1, 0,
         {
@@ -16,6 +17,8 @@ const addLine = (tabState) => {
             ]
         }
     )
+
+    newTabState = changeFocus(newTabState, newTabState.focusedLine+1, 0);
 
     return newTabState;
 }

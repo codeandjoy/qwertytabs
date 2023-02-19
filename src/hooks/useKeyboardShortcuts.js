@@ -23,26 +23,17 @@ const useKeyboardShortcuts = (tabState, setTabState) => {
         checkFretKeys(event.key);
 
         if(event.key === 'l'){
-            let newTabState = addNoteSet(tabState, Array(6).fill("l")); 
-            newTabState = changeFocus(newTabState, newTabState.focusedLine, newTabState.focusedNoteSet+1);
-            
-            setTabState(newTabState);
+            setTabState(addNoteSet(tabState, Array(6).fill("l")));
         }
 
         if(event.key === 'Enter'){
-            let newTabState = addLine(tabState);
-            newTabState = changeFocus(newTabState, newTabState.focusedLine+1, 0);
-
-            setTabState(newTabState);
+            setTabState(addLine(tabState));
         }
         
         if(event.key === ' '){
             cleanFretBuffer();
 
-            let newTabState = addNoteSet(tabState, Array(6).fill("n"));
-            newTabState = changeFocus(newTabState, newTabState.focusedLine, newTabState.focusedNoteSet+1);
-            
-            setTabState(newTabState);
+            setTabState(addNoteSet(tabState, Array(6).fill("n")));
         }
 
         if(event.shiftKey && event.key === 'Backspace'){
