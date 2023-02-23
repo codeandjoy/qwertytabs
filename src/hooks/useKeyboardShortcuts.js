@@ -1,52 +1,68 @@
-import { useCallback, useEffect } from "react";
-import useArrows from "./useArrows";
+import { useCallback, useContext, useEffect } from "react";
 import useFrets from "./useFrets";
 import useQWERTY from "./useQWERTY";
-import addNoteSet from "./utils/addNoteSet";
-import addLine from "./utils/addLine";
-import removeNoteSet from "./utils/removeNoteSet";
-import removeLine from "./utils/removeLine";
+import { doAddLine, doAddNoteSet, doChangeFocusedLine, doChangeFocusedNoteSet, doRemoveLine, doRemoveNoteSet } from "../state/TabSheetActionCreators";
+import { TabSheetContext } from "../TabSheetContext/TabSheetContext";
 
-const useKeyboardShortcuts = (tabState, setTabState) => {
-    const checkArrows = useArrows(tabState, setTabState);
-    const checkQWERTY = useQWERTY(tabState, setTabState);
-    const [checkFretKeys, cleanFretBuffer] = useFrets(tabState, setTabState);
+const useKeyboardShortcuts = () => {
+    const [tabState, dispatch] = useContext(TabSheetContext);
+
+    const checkQWERTY = useQWERTY();
+    const [checkFretKeys, cleanFretBuffer] = useFrets();
 
     console.log(tabState);
 
     const handleKeydown = useCallback((event) => {
         if(event.repeat) return;
 
-        checkArrows(event.key);        
-        checkQWERTY(event.key);
-        checkFretKeys(event.key);
+        checkQWERTY(event);
+        checkFretKeys(event);
+
+        if(event.key === 'ArrowUp') dispatch(doChangeFocusedLine(tabState.focusedLine-1));
+        else if(event.key === 'ArrowDown') dispatch(doChangeFocusedLine(tabState.focusedLine+1));
+        if(event.key === 'ArrowLeft') dispatch(doChangeFocusedNoteSet(tabState.focusedNoteSet-1));
+        else if(event.key === 'ArrowRight') dispatch(doChangeFocusedNoteSet(tabState.focusedNoteSet+1));
 
         if(event.key === 'l'){
-            setTabState(addNoteSet(tabState, Array(6).fill("l")));
+            console.log('here');
+            dispatch(doAddNoteSet(Array(6).fill('l')));
+            dispatch(doChangeFocusedNoteSet(tabState.focusedNoteSet+1));
         }
 
-        if(event.key === 'Enter'){
-            setTabState(addLine(tabState));
+        if(event.key === 'Enter') {
+            cleanFretBuffer();
+            dispatch(doAddLine());
+            dispatch(doChangeFocusedLine(tabState.focusedLine+1));
         }
         
         if(event.key === ' '){
             cleanFretBuffer();
-            setTabState(addNoteSet(tabState, Array(6).fill("n")));
+            dispatch(doAddNoteSet(Array(6).fill('n')));
+            dispatch(doChangeFocusedNoteSet(tabState.focusedNoteSet+1));
         }
 
         if(event.shiftKey && event.key === 'Backspace'){
-            setTabState(removeLine(tabState));
-        }
+            dispatch(doChangeFocusedLine(tabState.focusedLine-1));
+            dispatch(doRemoveLine(tabState.focusedLine));
+
+        }        
         else if(event.key === 'Backspace'){
-            setTabState(removeNoteSet(tabState));
+            if(tabState.tabContent.notes[tabState.focusedLine].lineData.length === 1){
+                dispatch(doChangeFocusedLine(tabState.focusedLine-1));
+                dispatch(doRemoveLine(tabState.focusedLine));
+            }
+            else{
+                dispatch(doChangeFocusedNoteSet(tabState.focusedNoteSet-1));
+                dispatch(doRemoveNoteSet(tabState.focusedNoteSet));
+            }
         }
 
-    }, [checkArrows, checkQWERTY, checkFretKeys, cleanFretBuffer, tabState, setTabState]);
+    }, [tabState, dispatch, checkQWERTY, checkFretKeys, cleanFretBuffer]);
 
     const handleKeyup = useCallback((event) => {
         if(event.repeat) return;
         
-        checkQWERTY(event.key);
+        checkQWERTY(event);
 
     }, [checkQWERTY]);
     

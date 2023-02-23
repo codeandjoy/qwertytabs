@@ -1,29 +1,18 @@
-import { useCallback } from "react";
+import { useContext } from "react";
+import { doToggleStringFocus } from "../state/TabSheetActionCreators";
+import { TabSheetContext } from "../TabSheetContext/TabSheetContext";
 
-const useQWERTY = (tabState, setTabState) => {
-    const toggleStringFocus = useCallback((string) => {
-        let newTabState = {};
+const useQWERTY = () => {
+    const [,dispatch] = useContext(TabSheetContext);
 
-        if(tabState.focusedStrings.includes(string)){
-            newTabState = { ...tabState, focusedStrings: [ ...tabState.focusedStrings.filter(s => s !== string) ] }
-        }
-        else {
-            newTabState = { ...tabState, focusedStrings: [ ...tabState.focusedStrings, string ] }
-        }
-
-        setTabState(newTabState);
-    }, [tabState, setTabState]);
-
-    const checkQWERTY = (key) =>{
-        if(key === 'q') toggleStringFocus(5);
-        if(key === 'w') toggleStringFocus(4);
-        if(key === 'e') toggleStringFocus(3);
-        if(key === 'r') toggleStringFocus(2);
-        if(key === 't') toggleStringFocus(1);
-        if(key === 'y') toggleStringFocus(0);
+    return (event) =>{
+        if(event.key === 'q') dispatch(doToggleStringFocus(5));
+        if(event.key === 'w') dispatch(doToggleStringFocus(4));
+        if(event.key === 'e') dispatch(doToggleStringFocus(3));
+        if(event.key === 'r') dispatch(doToggleStringFocus(2));
+        if(event.key === 't') dispatch(doToggleStringFocus(1));
+        if(event.key === 'y') dispatch(doToggleStringFocus(0));
     }
-
-    return checkQWERTY;
 }
 
 export default useQWERTY;

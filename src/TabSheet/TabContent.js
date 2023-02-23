@@ -5,7 +5,7 @@ import "./css/TabContent.css";
 
 
 const TabContent = () => {
-    const [tabState] = useContext(TabSheetContext);
+    const [tabState,] = useContext(TabSheetContext);
 
     return (
         <div className="tab-content">

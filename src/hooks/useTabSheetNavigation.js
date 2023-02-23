@@ -1,56 +1,45 @@
-import { useCallback } from "react";
-import changeFocus from "./utils/changeFocus";
+import { useCallback, useContext } from "react";
+import { doChangeFocusedLine, doChangeFocusedNoteSet } from "../state/TabSheetActionCreators";
+import { TabSheetContext } from "../TabSheetContext/TabSheetContext";
 
-const useTabSheetNavigation = (tabState, setTabState) => {
-    const changeTabFocus = useCallback((newFocusLine, newFocuseNoteSet) => {
-        setTabState(changeFocus(tabState, newFocusLine, newFocuseNoteSet));
-    }, [tabState, setTabState]);
+const useTabSheetNavigation = () => {
+    const [tabState, dispatch] = useContext(TabSheetContext);
 
     const moveLineUp = useCallback(() => {
-        const currentFocusLine = tabState.focusedLine;
-        const currentFocusNoteSet = tabState.focusedNoteSet;
-        
-        if(currentFocusLine === 0) return;
+        if(tabState.focusedLine === 0) return;
 
-        if(currentFocusNoteSet > tabState.tabContent.notes[currentFocusLine-1].lineData.length-1){
-            changeTabFocus(currentFocusLine-1, tabState.tabContent.notes[currentFocusLine-1].lineData.length-1);
+        if(tabState.focusedNoteSet > tabState.tabContent.notes[tabState.focusedLine-1].lineData.length-1){
+            dispatch(doChangeFocusedLine(tabState.focusedLine-1));
+            dispatch(doChangeFocusedNoteSet(tabState.tabContent.notes[tabState.focusedLine-1].lineData.length-1));
         }
         else{
-            changeTabFocus(currentFocusLine-1, currentFocusNoteSet);
+            dispatch(doChangeFocusedLine(tabState.focusedLine-1));
         }
-    }, [tabState, changeTabFocus]);
+    }, [tabState, dispatch]);
 
     const moveLineDown = useCallback(() => {
-        const currentFocusLine = tabState.focusedLine;
-        const currentFocusNoteSet = tabState.focusedNoteSet;
+        if(tabState.focusedLine+1 > tabState.tabContent.notes.length-1) return;
 
-        if(currentFocusLine+1 > tabState.tabContent.notes.length-1) return;
-
-        if(currentFocusNoteSet > tabState.tabContent.notes[currentFocusLine+1].lineData.length-1){
-            changeTabFocus(currentFocusLine+1, tabState.tabContent.notes[currentFocusLine+1].lineData.length-1);
+        if(tabState.focusedNoteSet > tabState.tabContent.notes[tabState.focusedLine+1].lineData.length-1){
+            dispatch(doChangeFocusedLine(tabState.focusedLine+1));
+            dispatch(doChangeFocusedNoteSet(tabState.tabContent.notes[tabState.focusedLine+1].lineData.length-1));
         }
         else{
-            changeTabFocus(currentFocusLine+1, currentFocusNoteSet);
+            dispatch(doChangeFocusedLine(tabState.focusedLine+1));
         }
-    }, [tabState, changeTabFocus]);
+    }, [tabState, dispatch]);
 
     const moveSetLeft = useCallback(() => {
-        const currentFocusLine = tabState.focusedLine;
-        const currentFocusNoteSet = tabState.focusedNoteSet;
+        if(tabState.focusedNoteSet === 0) return;
 
-        if(currentFocusNoteSet === 0) return;
-
-        changeTabFocus(currentFocusLine, currentFocusNoteSet-1);
-    }, [tabState, changeTabFocus]);
+        dispatch(doChangeFocusedNoteSet(tabState.focusedNoteSet-1));
+    }, [tabState, dispatch]);
 
     const moveSetRight = useCallback(() => {
-        const currentFocusLine = tabState.focusedLine;
-        const currentFocusNoteSet = tabState.focusedNoteSet;
+        if(tabState.focusedNoteSet+1 > tabState.tabContent.notes[tabState.focusedLine].lineData.length-1) return;
 
-        if(currentFocusNoteSet+1 > tabState.tabContent.notes[currentFocusLine].lineData.length-1) return;
-
-        changeTabFocus(currentFocusLine, currentFocusNoteSet+1);
-    }, [tabState, changeTabFocus]);
+        dispatch(doChangeFocusedNoteSet(tabState.focusedNoteSet+1));
+    }, [tabState, dispatch]);
 
     return [moveLineUp, moveLineDown, moveSetLeft, moveSetRight];
 }

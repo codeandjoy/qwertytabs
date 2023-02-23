@@ -1,29 +1,23 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
+import { doSetFret } from "../state/TabSheetActionCreators";
+import { TabSheetContext } from "../TabSheetContext/TabSheetContext";
 
-const useFrets = (tabState, setTabState) => {
+const useFrets = () => {
+    const [tabState, dispatch] = useContext(TabSheetContext);
+
     const fretBuffer = useMemo(() => [], []);
     const cleanFretBuffer = useCallback(() => fretBuffer.length = 0, [fretBuffer]);
-
-    const setFret = useCallback((fret) => {
-        const newTabState = { ...tabState }; 
-        
-        tabState.focusedStrings.forEach(focusedString => {
-            newTabState.tabContent.notes[tabState.focusedLine].lineData[tabState.focusedNoteSet].noteSetData[focusedString] = fret;
-        });
-
-        setTabState(newTabState);
-    }, [tabState, setTabState]);
 
     useEffect(() => {
         if(!tabState.focusedStrings.length){
             cleanFretBuffer();
         } 
-    }, [fretBuffer, cleanFretBuffer, tabState.focusedStrings]);
+    }, [tabState, fretBuffer, cleanFretBuffer]);
 
-    const checkFretKeys = (key) => {
-        if(/^[0-9]$/i.test(key)){
-            fretBuffer.push(key.toString());
-            setFret(fretBuffer.join(''));
+    const checkFretKeys = (event) => {
+        if(/^[0-9]$/i.test(event.key)){
+            fretBuffer.push(event.key.toString());
+            dispatch(doSetFret(fretBuffer.join('')));
         }
     }
 

@@ -1,9 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
+import TabSheetReducer from "../state/TabSheetReducer";
 
 export const TabSheetContext = createContext();
 
 export const TabSheetContextProvider = ({ children }) => {
-    const [tabState, setTabState] = useState({
+    const [tabState, dispatch] = useReducer(TabSheetReducer, {
         focusedLine: 1,
         focusedNoteSet: 6,
         focusedStrings: [],
@@ -87,7 +88,7 @@ export const TabSheetContextProvider = ({ children }) => {
     });
 
     return (
-        <TabSheetContext.Provider value={[ tabState, setTabState ]}>
+        <TabSheetContext.Provider value={[ tabState, dispatch ]}>
             { children }
         </TabSheetContext.Provider>
     );
