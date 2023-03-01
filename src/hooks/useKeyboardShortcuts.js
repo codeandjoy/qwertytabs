@@ -49,7 +49,13 @@ const useKeyboardShortcuts = () => {
         else if(event.key === 'Backspace'){
             if(tabState.tabContent.notes[tabState.focusedLine].lineData.length === 1){
                 dispatch(doChangeFocusedLine(tabState.focusedLine-1));
+                dispatch(doChangeFocusedNoteSet(tabState.tabContent.notes[tabState.focusedLine-1].lineData.length-1));
                 dispatch(doRemoveLine(tabState.focusedLine));
+            }
+            else if(tabState.focusedNoteSet === 0){
+                dispatch(doRemoveNoteSet(tabState.focusedNoteSet));
+                dispatch(doChangeFocusedLine(tabState.focusedLine-1));
+                dispatch(doChangeFocusedNoteSet(tabState.tabContent.notes[tabState.focusedLine-1].lineData.length-1));
             }
             else{
                 dispatch(doChangeFocusedNoteSet(tabState.focusedNoteSet-1));
