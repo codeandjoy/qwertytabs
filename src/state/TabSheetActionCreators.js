@@ -1,3 +1,7 @@
+export const doChangeTabName = (newName) => {
+    return { type: 'change_tab_name', payload: newName };
+}
+
 export const doSetFret = (fret) => {
     return { type: 'set_fret', payload: fret };
 }

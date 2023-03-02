@@ -1,6 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
 
 const TabSheetReducer = (state, action) => {
+    if(action.type === 'change_tab_name'){
+        return {
+            ...state, 
+            tabContent: { 
+                ...state.tabContent,
+                name: action.payload
+            } 
+        }
+    }
+
     if(action.type === 'set_fret'){
         const newTabState = { ...state }; 
         
