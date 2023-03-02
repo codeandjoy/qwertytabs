@@ -1,6 +1,11 @@
 .full-screen-content {
+  display: flex;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
   padding: 50px;
   box-sizing: border-box;
+}
+.full-screen-content > *:nth-child(2) {
+  flex: 1;
 }/*# sourceMappingURL=FullScreenContent.css.map */
