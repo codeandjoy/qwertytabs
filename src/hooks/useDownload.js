@@ -60,7 +60,8 @@ const useDownload = () => {
             noteSets.length = 0;
         });
 
-        const tabSheet = lines.join('\n\n');
+        let tabSheet = lines.join('\n\n');
+        tabSheet = tabState.tabContent.name+'\n\n' + tabSheet;
         console.log(tabSheet);
 
         // Download
