@@ -20,14 +20,17 @@ const transpose = (matrix) => {
 }
 
 const paintNotes = (matrix) => {
-    return matrix.map(row  => {
-        return row.map(col => {
-            if(col === 'n') return '---';
-            if(col === 'l') return '|--';
-            if(col.length === 2) return col+'-';
-            return col+'--';
-        })
-    })
+    return matrix
+        .map(row => [ 'n', ...row ])
+        .map(row => [ ...row, 'n' ])
+        .map(row  => {
+            return row.map(col => {
+                if(col === 'n') return '---';
+                if(col === 'l') return '|--';
+                if(col.length === 2) return col+'-';
+                return col+'--';
+            })
+        });
 }
 
 const createStringsOfNotes = (matrix) => {
