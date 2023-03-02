@@ -68,7 +68,7 @@ const useDownload = () => {
         const blob = new Blob([tabSheet], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.download = 'tabsheet.txt';
+        link.download = tabState.tabContent.name+'.txt';
         link.href = url;
         link.click();
         link.remove();
