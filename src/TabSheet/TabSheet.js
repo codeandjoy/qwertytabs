@@ -1,16 +1,23 @@
 import { useContext } from "react";
-import { TabSheetContext } from "../TabSheetContext/TabSheetContext";
 import AutosizeInput from "react-input-autosize";
+import { motion } from 'framer-motion';
+import { TabSheetContext } from "../TabSheetContext/TabSheetContext";
 import { doChangeTabName } from "../state/TabSheetActionCreators";
 import TabContent from "./TabContent";
 import "./css/TabSheet.css";
+import { fadeInSlow } from "../Animations/Animations";
 
 
 const TabSheet = () => {
     const [tabState, dispatch] = useContext(TabSheetContext);
 
     return (
-        <div id="TabSheet">
+        <motion.div 
+            variants={ fadeInSlow }
+            initial='hidden'
+            animate='show'
+
+            id="TabSheet">
             <AutosizeInput
                 className="tab-name"
                 value={ tabState.tabContent.name }
@@ -18,7 +25,7 @@ const TabSheet = () => {
             />
             {/* <h1 className="tab-name">{ tabState.tabContent.name }</h1> */}
             <TabContent/>
-        </div>
+        </motion.div>
     );
 }
 
